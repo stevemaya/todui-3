@@ -21,53 +21,59 @@ Your options are:
 
 `;
 
-const add = function(userInput) {
+const add = function (userInput) {
   const todo = {
     text: userInput,
     isComplete: false,
     priority: 2,
-  }
-
+  };
   todos.unshift(todo);
-  console.clear();
-  console.log('Your todos are:')
-  for (const todo of todos) {
-    console.log('* ' + todo.text);
-  }
-
+  display();
   interface.question(menu, handleMenu);
-}
+};
 
-const handleMenu = function(cmd) {
-  if (cmd === '1') {
-    console.clear();
-    interface.question('What todo would you like to add?\n\n', add);
-  } else if (cmd === '2') {
-    console.clear();
-    console.log(`Feature ${cmd} is still under construction. Sorry!`);
-    interface.question(menu, handleMenu);
-  } else if (cmd === '3') {
-    console.clear();
-    console.log(`Feature ${cmd} is still under construction. Sorry!`);
-    interface.question(menu, handleMenu);
-  } else if (cmd === '4') {
-    console.clear();
-    console.log(`Feature ${cmd} is still under construction. Sorry!`);
-    interface.question(menu, handleMenu);
-  } else if (cmd === '5') {
-    console.clear();
-    console.log(`Feature ${cmd} is still under construction. Sorry!`);
-    interface.question(menu, handleMenu);
-  } else {
-    console.log('Quitting!');
-    interface.close();
+const display = () => {
+  console.clear();
+  console.log("Your todos are:");
+  for (let i = 1; i < todos.length; i++) {
+    console.log(`${i}. ${todos[i].text}`);
   }
 };
 
-console.clear();
-console.log('Your todos are:')
-for (const todo of todos) {
-  console.log('* ' + todo.text);
-}
+const remove = (selection) => {
+  const num = selection;
+  todos.splice(num, 1);
+  display();
+  interface.question(menu, handleMenu);
+};
 
+const handleMenu = cmd => {
+  switch (cmd) {
+    case '1':
+      console.clear();
+      interface.question('What should go on your todo list?\n\n', add);
+      break;
+    case '2':
+      console.clear();
+      display();
+      interface.question('Which todo do you want to remove?\n\n', remove);
+      break;
+    case '3':
+    case '4':
+    case '5':
+      console.clear();
+      console.log(`Feature ${cmd} is still under construction. Sorry!`);
+      console.log('Type 6 to quit!');
+      interface.question(menu, handleMenu);
+      break;
+    case '6':
+      console.log('Quitting!');
+      interface.close();
+      break;
+  };
+};
+
+
+console.clear();
+display();
 interface.question(menu, handleMenu);
